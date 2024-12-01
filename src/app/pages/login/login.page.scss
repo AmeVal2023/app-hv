@@ -1,0 +1,52 @@
+.preload{
+    position: absolute;
+  }  
+ion-header{
+    position: absolute;
+}
+ion-toolbar{
+    --ion-background-color: transparent;
+    --opacity:0;
+
+}
+ion-card {
+    --ion-background-color: transparent;
+    box-shadow: none !important;
+    position: relative;
+    top: 60%;
+}
+ion-card-header{
+    text-align: center;
+    ion-card-title{
+        font-family: 'Laila', serif;
+    }
+    ion-card-subtitle{
+        color: #000;
+    }
+}
+.signin-btns{
+    text-align: center;
+    color: #ffffff;
+}
+.loginbtn{
+    --ion-color-primary: #008d8d;
+}
+
+.text-tag{
+    margin: 15px 0px;
+    text-align: center;
+    span{
+        font-size: 15px;
+        color: #ffffff;
+    }
+}
+.social-btns{
+    text-align: center;
+    ion-button {
+        width: 50px;
+        padding-left: 8px !important;
+    }
+    .applebtn{
+        width: 60px !important;
+    }
+}

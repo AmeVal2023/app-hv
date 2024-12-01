@@ -1,2 +1,52 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
+
+  :root {
+    /*Fonts por defecto*/
+    --ion-font-family: 'Rubik', sans-serif; /* Fuente predeterminada para Ionic */
+
+    /* Color Primario */
+    --ion-color-primary: #008d8d; /* Color principal */
+    --ion-color-primary-rgb: 0, 141, 141; /* RGB del color principal */
+    --ion-color-primary-contrast: #ffffff; /* Contraste del texto (blanco sobre primario) */
+    --ion-color-primary-contrast-rgb: 255, 255, 255; /* RGB del contraste */
+    --ion-color-primary-shade: #006f6f; /* Sombra del primario (más oscuro) */
+    --ion-color-primary-tint: #69c0ac; /* Tono más claro del primario */
+  
+    /* Color Oscuro */
+    --ion-color-dark: #1d1d1b; /* Color oscuro */
+    --ion-color-dark-rgb: 29, 29, 27; /* RGB del color oscuro */
+    --ion-color-dark-contrast: #ffffff; /* Contraste del texto sobre oscuro */
+    --ion-color-dark-contrast-rgb: 255, 255, 255; /* RGB del contraste */
+  
+    /* Colores secundarios y adicionales */
+    --ion-color-secondary: #69c0ac; /* Secundario basado en el tono claro del primario */
+    --ion-color-secondary-rgb: 105, 192, 172;
+    --ion-color-secondary-contrast: #ffffff;
+    --ion-color-secondary-shade: #57a594;
+    --ion-color-secondary-tint: #82ceb9;
+  
+    /* Colores de éxito, advertencia y error */
+    --ion-color-success: #2ecc71; /* Verde éxito */
+    --ion-color-success-rgb: 46, 204, 113;
+    --ion-color-warning: #f1c40f; /* Amarillo advertencia */
+    --ion-color-warning-rgb: 241, 196, 15;
+    --ion-color-danger: #e74c3c; /* Rojo error */
+    --ion-color-danger-rgb: 231, 76, 60;
+  
+    /* Colores neutros */
+    --ion-color-light: #f4f4f4; /* Claro */
+    --ion-color-light-rgb: 244, 244, 244;
+    --ion-color-medium: #c8c8c8; /* Medio */
+    --ion-color-medium-rgb: 200, 200, 200;
+  }
+  
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Laila', serif; /* Fuente para títulos */
+  }
+  
+  p, span, div, ion-text {
+    font-family: 'Rubik', sans-serif; /* Fuente para párrafos */
+  }
+  

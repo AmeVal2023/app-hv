@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">hv</string>
+    <string name="title_activity_main">hv</string>
+    <string name="package_name">com.ionichv</string>
+    <string name="custom_url_scheme">com.ionichv</string>
+</resources>
