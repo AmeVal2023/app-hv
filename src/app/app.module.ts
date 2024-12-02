@@ -13,6 +13,10 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { firebaseConfig } from 'src/environments/environment';
 
+//Other Imports
+import { LottieSplashScreen } from '@ionic-native/lottie-splash-screen/ngx';
+import { IonicNativePlugin } from '@ionic-native/core';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -22,7 +26,7 @@ import { firebaseConfig } from 'src/environments/environment';
     FormsModule,
     AppRoutingModule
     ],
-  providers: [
+  providers: [LottieSplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideFirebaseApp(() => initializeApp(firebaseConfig)), // Inicialización de Firebase App
     provideAuth(() => getAuth()), // Proveedor de autenticación

@@ -30,11 +30,13 @@
     "@capacitor/ios": "^6.2.0",
     "@capacitor/keyboard": "6.0.3",
     "@capacitor/status-bar": "6.0.2",
+    "@ionic-native/core": "^5.36.0",
+    "@ionic-native/lottie-splash-screen": "^5.36.0",
     "@ionic/angular": "^8.0.0",
     "firebase": "^10.14.1",
     "ionicons": "^7.0.0",
     "latest": "^0.2.0",
-    "rxjs": "~7.8.0",
+    "rxjs": "^7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
   },
@@ -53,6 +55,7 @@
     "@types/jasmine": "~5.1.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "cordova-plugin-lottie-splashscreen": "^0.10.0",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsdoc": "^48.2.1",
@@ -72,5 +75,10 @@
     "type": "git",
     "url": "com.ionic5loginform"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-lottie-splashscreen": {}
+    }
+  }
 }
