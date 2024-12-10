@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { doc, getDoc, setDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-loginscreen',
@@ -38,15 +39,36 @@ export class LoginscreenPage implements OnInit {
       ]))
     })
   }
-  LoginUser(value: any) { // La función ahora está correctamente dentro de la clase
-    console.log("Estoy Logueado", value);
+  async LoginUser(value: any) {
     try {
-      this.authservice.loginFireauth(value).then( resp =>{
-       console.log(resp); 
-       this.router.navigate(['tabs/home']); // Redirige si el login es exitoso
-      })
+        const resp = await this.authservice.loginFireauth(value);
+        const userUid = resp.user?.uid;
+
+        if (!userUid) {
+            console.error('No UID found for the authenticated user');
+            return;
+        }
+
+        // Referencia al documento del usuario en Firestore
+        const userDocRef = doc(this.authservice.firestore, `users/${userUid}`);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+            console.log('User data found:', userDocSnap.data());
+            this.router.navigate(['tabs/home']); // Redirige si el login es exitoso
+        } else {
+            console.warn('User data not found in Firestore. Creating...');
+            // Crea el documento si no existe
+            await setDoc(userDocRef, {
+                uid: userUid,
+                email: value.email,
+                subscriptionType: 'Free', // Valor predeterminado
+            });
+            this.router.navigate(['tabs/home']);
+        }
     } catch (err) {
-      console.log(err);
+        console.error('Login error:', err);
     }
   }
+  
 }
