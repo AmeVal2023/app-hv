@@ -6,12 +6,21 @@
 </ion-header>
 
 <ion-content>
-  <!-- Barra de búsqueda -->
-  <ion-searchbar
-    placeholder="Search products"
-    [(ngModel)]="searchQuery"
-    (ionInput)="filterProducts()">
-  </ion-searchbar>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <!-- Barra de búsqueda -->
+        <ion-searchbar
+        placeholder="Search products"
+        [(ngModel)]="searchQuery"
+        (ionInput)="filterProducts()">
+      </ion-searchbar>
+      </ion-col>
+      <ion-col size="auto" style="align-items: center; display: flex;">
+        <ion-button expand="block" size="small" color="primary" (click)="goToFavorites()">Favorites</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <!-- Productos por categoría -->
   <ion-segment [(ngModel)]="selectedCategory" (ionChange)="filterProducts()">
@@ -33,7 +42,18 @@
           <img [src]="product.image" alt="{{ product.title }}" />
           <ion-card-header>
             <ion-card-title>{{ product.title }}</ion-card-title>
-            <ion-card-subtitle>{{ product.duration }}</ion-card-subtitle>
+            <ion-grid>
+              <ion-row class="time-favorites">
+                <ion-col>
+                  <ion-card-subtitle>{{ product.duration }}</ion-card-subtitle>
+                </ion-col>
+                <ion-col>
+                  <ion-button fill="clear" [color]="product.isFavorite ? 'danger' : 'primary'" (click)="toggleFavorite(product)">
+                    <ion-icon [name]="product.isFavorite ? 'heart' : 'heart-outline'"></ion-icon>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
           </ion-card-header>
           <ion-card-content>
             <p>{{ product.description }}</p>

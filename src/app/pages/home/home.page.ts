@@ -2,6 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Firestore, collection, getDocs, doc, getDoc } from '@angular/fire/firestore'; // Agrega `doc` y `getDoc`
 import { Auth } from '@angular/fire/auth';
+import { FavoritesService } from 'src/app/services/favorites.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +18,12 @@ export class HomePage implements OnInit {
   userSubscriptionType: string = '';
   noAccessMessage: string = '';
 
-  constructor(public firestore: Firestore, public auth: Auth) {}
+  constructor(
+    public firestore: Firestore, 
+    public auth: Auth, 
+    private favoritesService: FavoritesService,
+    private router: Router // Añade el router
+  ) {}
 
   ngOnInit() {
     this.initializeData();
@@ -34,7 +41,23 @@ export class HomePage implements OnInit {
     // Aplica el filtro inicial
     this.filterProducts();
   }
+  //Favorites products
+  async toggleFavorite(product: any) {
+    try {
+      if (product.isFavorite) {
+        await this.favoritesService.removeFavorite(product.id);
+        product.isFavorite = false;
+      } else {
+        await this.favoritesService.addFavorite(product.id);
+        product.isFavorite = true;
+      }
+      console.log(`Favorite status toggled for product ${product.id}`);
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+    }
+  }
   
+
   filterProducts() {
     console.log('Filtering products with userSubscriptionType:', this.userSubscriptionType);
   
@@ -108,15 +131,22 @@ export class HomePage implements OnInit {
     this.filterProducts();
   }
   
+  // Método viewProduct ajustado
   viewProduct(product: any) {
-    // Navegar a la página de detalles del producto
     console.log('View product:', product);
+    this.router.navigate(['/product-detail', product.id]); // Navega a la página de detalles con el ID del producto
   }
 
   goToProfile() {
     console.log('Navigating to profile...');
     // Reemplaza esto con la lógica de navegación de tu proyecto
     window.location.href = '/tabs/profile'; // Si estás usando rutas
+  }
+
+  goToFavorites() {
+    console.log('Navigating to favorites...');
+    // Reemplaza esto con la lógica de navegación de tu proyecto
+    window.location.href = '/favorites'; // Si estás usando rutas
   }
   
 }

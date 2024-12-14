@@ -1,0 +1,61 @@
+<!--favorites.page.html -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home" text="" icon="chevron-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Favorites</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Spinner mientras se cargan los datos -->
+  <ion-spinner *ngIf="isLoading"></ion-spinner>
+
+  <!-- Barra de búsqueda -->
+  <ion-searchbar 
+    *ngIf="!isLoading && favoriteProducts.length > 0" 
+    [(ngModel)]="searchTerm" 
+    (ionInput)="filterProducts()" 
+    placeholder="Search your favorites">
+  </ion-searchbar>
+
+  <!-- Lista de productos favoritos -->
+  <ion-grid *ngIf="!isLoading && filteredProducts.length > 0">
+    <ion-row>
+      <ion-col size="12" *ngFor="let product of filteredProducts">
+        <ion-card>
+          <img [src]="product.image" alt="{{ product.title }}" />
+          <ion-card-header>
+            <ion-card-title>{{ product.title }}</ion-card-title>
+            <ion-card-subtitle>{{ product.duration }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p>{{ product.description }}</p>
+          </ion-card-content>
+          <ion-grid fixed>
+            <ion-row>
+              <ion-col size="6">
+                <ion-button expand="block" color="danger" (click)="removeFromFavorites(product.id)">
+                  Remove ★
+                </ion-button>
+              </ion-col>
+              <ion-col size="6">
+                <ion-button expand="block" (click)="viewProduct(product)">
+                  View
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Mensaje si no hay productos favoritos -->
+  <div *ngIf="!isLoading && filteredProducts.length === 0" class="empty-state">
+    <p>No favorite products found. Add some to see them here!</p>
+  </div>
+</ion-content>
+
+
