@@ -1,0 +1,42 @@
+<!--subitem-detail.page.html-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home" text="" icon="chevron-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ subitem.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="!isLoading">
+  <ion-card>
+    <img [src]="subitem.image" alt="{{ subitem.title }}" />
+    <ion-card-header>
+      <ion-card-title>{{ subitem.title }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div [innerHTML]="subitem.content"></div>
+      <p>
+        <strong>Status:</strong>
+        <span [ngClass]="{ 'completed': subitem.state }">
+          {{ subitem.state ? 'Completed' : 'In Progress' }}
+        </span>
+      </p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<!-- Botones de navegación y completado -->
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button *ngIf="canNavigateBack()" (click)="navigateToSubitem('back')">Back</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="success" *ngIf="!subitem.state" (click)="markAsCompleted()">
+        Mark as Completed
+      </ion-button>
+      <ion-button *ngIf="canNavigateNext()" (click)="navigateToSubitem('next')">Next</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

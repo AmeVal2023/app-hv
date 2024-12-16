@@ -1,3 +1,4 @@
+//app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { authGuard } from 'src/app/guards/auth.guard';
@@ -45,6 +46,11 @@ const routes: Routes = [
     path: 'product-detail/:id', // Ruta con parámetro `id`
     loadChildren: () => import('./pages/product-detail/product-detail.module').then(m => m.ProductDetailPageModule),
   },
+  {
+    path: 'subitem-detail/:id',
+    loadChildren: () => import('./pages/subitem-detail/subitem-detail.module').then(m => m.SubitemDetailPageModule),
+  },
+  
 ];
 
 @NgModule({
