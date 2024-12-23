@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Firestore, collection, getDocs, doc, getDoc } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { FavoritesService } from 'src/app/services/favorites.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-favorites',
@@ -16,7 +17,12 @@ export class FavoritesPage implements OnInit {
   searchTerm: string = ''; // Para la barra de búsqueda
   products: any[] = [];
 
-  constructor(public firestore: Firestore, public auth: Auth, public favoritesService: FavoritesService) {}
+  constructor(
+    public firestore: Firestore,
+    public auth: Auth,
+    public favoritesService: FavoritesService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.loadFavorites();
@@ -64,11 +70,11 @@ export class FavoritesPage implements OnInit {
     );
   }
   
+  // Método viewProduct ajustado
   viewProduct(product: any) {
-    // Navegar a la página de detalles del producto
     console.log('View product:', product);
+    this.router.navigate(['/product-detail', product.id]); // Navega a la página de detalles con el ID del producto
   }
-
   async removeFromFavorites(productId: string) {
     try {
       await this.favoritesService.removeFavorite(productId);

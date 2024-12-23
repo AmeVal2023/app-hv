@@ -6,7 +6,9 @@ ion-content{
 }
 ion-card{
     ion-card-header{
-        h5{
+        padding: 0px 10px !important;
+        h6{
+            margin-top: 10px;
             color: #008d8d;
         }
     }

@@ -1,0 +1,80 @@
+<!--dashboard.page.html-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Formulario para Crear/Editar Producto -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ selectedProduct ? 'Edit Product' : 'Add New Product' }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="form">
+        <ion-item>
+          <ion-label position="floating">Title</ion-label>
+          <ion-input formControlName="title"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Description</ion-label>
+          <ion-textarea formControlName="description"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label>Category</ion-label>
+          <ion-select formControlName="category">
+            <ion-select-option value="Free">Free</ion-select-option>
+            <ion-select-option value="Premium">Premium</ion-select-option>
+            <ion-select-option value="Deluxe">Deluxe</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-button expand="full" color="primary" (click)="saveProduct()">Save</ion-button>
+        <ion-button expand="full" color="medium" (click)="resetForm()" *ngIf="selectedProduct">Reset</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Lista de Productos -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Products List</ion-card-title>
+    </ion-card-header>
+    <ion-list>
+      <ion-item *ngFor="let product of products">
+        <ion-label>
+          <h2>{{ product.title }} ({{ product.category }})</h2>
+          <p>{{ product.description }}</p>
+        </ion-label>
+        <ion-button color="warning" (click)="selectProduct(product)">Edit</ion-button>
+        <ion-button color="danger" (click)="deleteProduct(product.id)">Delete</ion-button>
+        <ion-button color="success" (click)="viewSubitems(product.id)">Subitems</ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <!-- Notificaciones Push-->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Send Notification</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="notificationForm">
+        <ion-item>
+          <ion-label position="floating">Title</ion-label>
+          <ion-input formControlName="titleNotification"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Message</ion-label>
+          <ion-textarea formControlName="message"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">User ID</ion-label>
+          <ion-input formControlName="userId"></ion-input>
+        </ion-item>
+        <ion-button expand="full" color="primary" (click)="sendNotification()">Send Notification</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+  
+</ion-content>

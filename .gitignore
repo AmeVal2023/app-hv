@@ -1,6 +1,7 @@
 # Specifies intentionally untracked files to ignore when using Git
 # http://git-scm.com/docs/gitignore
-
+# Ignorar archivos JSON sensibles
+backend/config/hormonavida-firebase-adminsdk.json
 *~
 *.sw[mnpcod]
 .tmp

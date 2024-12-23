@@ -9,7 +9,7 @@
 </ion-header>
 
 <ion-content *ngIf="!isLoading">
-  <ion-card>
+  <ion-card class="ion-no-margin">
     <img [src]="subitem.image" alt="{{ subitem.title }}" />
     <ion-card-header>
       <ion-card-title>{{ subitem.title }}</ion-card-title>
@@ -33,9 +33,7 @@
       <ion-button *ngIf="canNavigateBack()" (click)="navigateToSubitem('back')">Back</ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button color="success" *ngIf="!subitem.state" (click)="markAsCompleted()">
-        Mark as Completed
-      </ion-button>
+      <ion-button style="margin-right: 85px;" color="success" *ngIf="!subitem.state" (click)="markAsCompleted()">Mark as Completed</ion-button>
       <ion-button *ngIf="canNavigateNext()" (click)="navigateToSubitem('next')">Next</ion-button>
     </ion-buttons>
   </ion-toolbar>

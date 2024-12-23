@@ -1,12 +1,16 @@
 //app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { authGuard } from 'src/app/guards/auth.guard';
+import { authGuard} from 'src/app/guards/auth.guard';
+import { noAuthGuard} from 'src/app/guards/no-auth.guard';
+import { authAdminGuard } from 'src/app/guards/auth-admin.guard';
 
 const routes: Routes = [
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
+    canActivate: [noAuthGuard], // Agregamos el guard
+
   },
   {
     path: '',
@@ -14,20 +18,19 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
-  },
-  {
     path: 'signup',
-    loadChildren: () => import('./pages/signup/signup.module').then( m => m.SignupPageModule)
+    loadChildren: () => import('./pages/signup/signup.module').then( m => m.SignupPageModule),
+    canActivate: [noAuthGuard], // Protegemos la pantalla de registro
   },
   {
     path: 'forgotpassword',
-    loadChildren: () => import('./pages/forgotpassword/forgotpassword.module').then( m => m.ForgotpasswordPageModule)
+    loadChildren: () => import('./pages/forgotpassword/forgotpassword.module').then( m => m.ForgotpasswordPageModule),
+    canActivate: [noAuthGuard], // Protegemos la pantalla de recuperación de contraseña
   },
   {
     path: 'loginscreen',
-    loadChildren: () => import('./pages/loginscreen/loginscreen.module').then( m => m.LoginscreenPageModule)
+    loadChildren: () => import('./pages/loginscreen/loginscreen.module').then( m => m.LoginscreenPageModule),
+    canActivate: [noAuthGuard], // Protegemos la pantalla de registro
   },
   {
     path: 'about',
@@ -49,6 +52,15 @@ const routes: Routes = [
   {
     path: 'subitem-detail/:id',
     loadChildren: () => import('./pages/subitem-detail/subitem-detail.module').then(m => m.SubitemDetailPageModule),
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardPageModule),
+    canActivate: [authAdminGuard], // Usamos la función en vez de una clase
+  },
+  {
+    path: 'subitems',
+    loadChildren: () => import('./pages/subitems/subitems.module').then( m => m.SubitemsPageModule)
   },
   
 ];

@@ -1,0 +1,79 @@
+<!--subitems.page.hmtl-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" text="" icon="chevron-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Manage Subitems</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Formulario para agregar/editar subitems -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ selectedSubitem ? 'Edit Subitem' : 'Add New Subitem' }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="form">
+        <ion-item>
+          <ion-label position="floating">Title</ion-label>
+          <ion-input formControlName="title"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <input type="file" (change)="uploadImage($event)" accept="image/*" />
+        </ion-item>
+        <div *ngIf="uploadProgress">Uploading image...</div>
+        <img style="max-width: 192px;" *ngIf="form.value.image" [src]="form.value.image" width="100%" />
+
+        <ion-item>
+          <ion-label position="floating">Order</ion-label>
+          <ion-input type="number" formControlName="order"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Content</ion-label>
+          <editor
+            apiKey="0r0p0epzes4vs23akwb0vvrvpgdimssnt5xwt1tfrkppiqx9"
+            formControlName="content"
+            [init]="{
+              height: 300, width: 1200,
+              plugins: ['anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount'],
+              toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright | bullist numlist | code',
+            }"
+          ></editor>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>State</ion-label>
+          <ion-checkbox slot="start" formControlName="state"></ion-checkbox>
+        </ion-item>
+
+        <ion-button expand="full" color="primary" (click)="saveSubitem()">
+          {{ selectedSubitem ? 'Update Subitem' : 'Save Subitem' }}
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Lista de subitems -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Subitems List</ion-card-title>
+    </ion-card-header>
+    <ion-list>
+      <ion-item *ngFor="let subitem of subitems">
+        <ion-thumbnail slot="start">
+          <img [src]="subitem.image" />
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{ subitem.title }}</h2>
+          <p>Order: {{ subitem.order }} | State: {{ subitem.state ? 'Active' : 'Inactive' }}</p>
+        </ion-label>
+        <ion-button color="secondary" (click)="editSubitem(subitem)">Edit</ion-button>
+        <ion-button color="danger" (click)="deleteSubitem(subitem.id)">Delete</ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>

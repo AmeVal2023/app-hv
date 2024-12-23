@@ -1,3 +1,4 @@
+//app.module.ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -18,6 +19,10 @@ import { LottieSplashScreen } from '@ionic-native/lottie-splash-screen/ngx';
 import { IonicNativePlugin } from '@ionic-native/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+//Import TinyMCE
+import { EditorModule } from '@tinymce/tinymce-angular';
+
+
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [AppComponent],
@@ -26,7 +31,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     IonicModule.forRoot(),
     ReactiveFormsModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    EditorModule, // Importar el módulo de TinyMCE
     ],
   providers: [LottieSplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
