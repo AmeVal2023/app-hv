@@ -21,9 +21,14 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               {
+                "glob": "firebase-messaging-sw.js",
+                "input": "src/",
+                "output": "/"
+              },
+              {
                 "glob": "**/*",
                 "input": "src/assets",
-                "output": "assets"
+                "output": "/assets"
               },
               {
                 "glob": "**/*.svg",

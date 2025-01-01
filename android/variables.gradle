@@ -1,6 +1,7 @@
+//variables.gradle
 ext {
-    minSdkVersion = 22
     compileSdkVersion = 34
+    minSdkVersion = 22
     targetSdkVersion = 34
     androidxActivityVersion = '1.8.0'
     androidxAppCompatVersion = '1.6.1'

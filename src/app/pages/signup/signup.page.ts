@@ -61,7 +61,7 @@ export class SignupPage implements OnInit {
           if (response.user) {
             // Cierra el loading si el registro es exitoso
             this.loading.dismiss();
-            this.router.navigate(['loginscreen']); // Redirige si el registro es exitoso
+            this.router.navigate(['tabs/home']); // Redirige si el registro es exitoso
           }
         },
         (error) => {

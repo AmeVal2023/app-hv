@@ -2,85 +2,67 @@
 import { Injectable } from '@angular/core';
 import { FirebaseMessaging } from '@capacitor-firebase/messaging';
 import { ToastController } from '@ionic/angular';
-import { Firestore, setDoc, doc, getDoc} from '@angular/fire/firestore';
-import axios from 'axios';
+import { Firestore, setDoc, doc } from '@angular/fire/firestore';
+import { AuthService } from './auth.service'; // Importar el servicio de autenticación
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
-  private serverKey = 'TU_SERVER_KEY_AQUÍ'; // Reemplaza con tu clave del servidor de Firebase
-  constructor(private toastController: ToastController, private firestore: Firestore) {}
+  private vapidKey = 'BDCYr6nERSKdOVlSxQvCKBqlwgfN7hGl9HuXpaEiMHMuglQpZtrtugft_VshhPHnfJHBXXjDkg0N8WyGvCJ4VPA'; // Reemplaza con tu clave VAPID
 
-  private async saveTokenToFirestore(token: string, userId: string) {
-    const tokenRef = doc(this.firestore, `userTokens/${userId}`);
-    await setDoc(tokenRef, { token });
-    console.log('Token guardado en Firestore:', token);
-  }
-  async sendNotification(userId: string, title: string, message: string) {
-    // Obtener el token del usuario desde Firestore
-    const tokenRef = doc(this.firestore, `userTokens/${userId}`);
-    const tokenDoc = await getDoc(tokenRef);
-
-    if (!tokenDoc.exists()) {
-      throw new Error('No se encontró el token para el usuario especificado');
-    }
-
-    const token = tokenDoc.data()?.['token'];
-
-    // Enviar notificación usando Firebase Cloud Messaging
-    const payload = {
-      to: token,
-      notification: {
-        title: title,
-        body: message,
-      },
-    };
-
-    await axios.post('https://fcm.googleapis.com/fcm/send', payload, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `key=${this.serverKey}`,
-      },
-    });
-  }
+  constructor(
+    private toastController: ToastController,
+    private firestore: Firestore,
+    private authService: AuthService // Injectar AuthService
+  ) {}
 
   async initializeNotifications() {
     try {
-      // Solicitar permisos para las notificaciones push
+      console.log('Inicializando notificaciones...');
       const permission = await FirebaseMessaging.requestPermissions();
       if (permission.receive === 'granted') {
-        console.log('Notificación push permitida.');
-        const result = await FirebaseMessaging.getToken();
-        const token = result.token;
-        await this.registerDeviceToken(token);
+        console.log('Permiso para notificaciones concedido.');
+        try {
+          const result = await FirebaseMessaging.getToken({ vapidKey: this.vapidKey });
+          if (result?.token) {
+            console.log('Token recibido:', result.token);
+            const user = await this.authService.user$.toPromise();
+            if (user?.uid) {
+              const tokenRef = doc(this.firestore, `userTokens/${user.uid}`);
+              await setDoc(tokenRef, { token: result.token });
+              console.log('Token FCM guardado en Firestore:', result.token);
+            } else {
+              console.error('Usuario no autenticado, no se puede guardar el token.');
+            }
+          } else {
+            console.warn('No se generó un token FCM.');
+          }
+        } catch (getTokenError) {
+          console.error('Error obteniendo el token FCM:', getTokenError);
+        }
       } else {
         console.warn('Permiso para notificaciones denegado.');
       }
-
-      // Suscribirse a eventos de notificaciones
+  
       FirebaseMessaging.addListener('notificationReceived', async (notification: any) => {
         console.log('Notificación recibida:', notification);
         this.showToast(notification.notification?.title, notification.notification?.body);
       });
-
-      FirebaseMessaging.addListener('tokenReceived', async (token: { token: string }) => {
-        console.log('Nuevo token recibido:', token.token);
-        await this.registerDeviceToken(token.token);
-      });
     } catch (error) {
-      console.error('Error al inicializar notificaciones:', error);
+      console.error('Error al inicializar las notificaciones:', error);
     }
   }
+  
+  
 
-  private async registerDeviceToken(token: string) {
+  private async registerDeviceToken(token: string, userId: string) {
     try {
-      const userId = 'exampleUserId'; // Aquí debes reemplazar con el ID del usuario autenticado
       const tokenRef = doc(this.firestore, `userTokens/${userId}`);
       await setDoc(tokenRef, { token });
       console.log('Token guardado en Firestore:', token);
     } catch (error) {
-      console.error('Error al guardar el token:', error);
+      console.error('Error al guardar el token en Firestore:', error);
     }
   }
 

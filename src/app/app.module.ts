@@ -6,6 +6,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { provideHttpClient } from '@angular/common/http'; // Importa provideHttpClient
 
 // Firebase imports
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
@@ -35,6 +36,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     EditorModule, // Importar el módulo de TinyMCE
     ],
   providers: [LottieSplashScreen,
+    provideHttpClient(), // Reemplaza HttpClientModule por esta línea
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideFirebaseApp(() => initializeApp(firebaseConfig)), // Inicialización de Firebase App
     provideAuth(() => getAuth()), // Proveedor de autenticación

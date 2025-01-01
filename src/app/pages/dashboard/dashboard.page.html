@@ -69,9 +69,13 @@
           <ion-textarea formControlName="message"></ion-textarea>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">User ID</ion-label>
-          <ion-input formControlName="userId"></ion-input>
-        </ion-item>
+          <ion-label>User</ion-label>
+          <ion-select formControlName="userId">
+            <ion-select-option *ngFor="let user of users" [value]="user.id"> <!-- Usar user.id -->
+              {{ user.name }} ({{ user.email }}) - Token: {{ user.token ? 'Sí' : 'No' }}
+            </ion-select-option>
+          </ion-select>                
+        </ion-item>        
         <ion-button expand="full" color="primary" (click)="sendNotification()">Send Notification</ion-button>
       </form>
     </ion-card-content>

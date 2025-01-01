@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  package="com.ionichv">
+
+    <uses-sdk
+      android:minSdkVersion="21"
+      tools:overrideLibrary="org.apache.cordova" />
 
     <!-- Permisos necesarios -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -39,14 +45,19 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <meta-data 
+        android:name="com.google.firebase.messaging.default_notification_icon"
+        android:resource="@mipmap/ic_launcher" />
 
         <!-- Servicio de Firebase Messaging -->
         <service
-            android:name="com.google.firebase.messaging.FirebaseMessagingService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
+          android:name="com.google.firebase.messaging.FirebaseMessagingService"
+          android:enabled="true"
+          android:exported="true"
+          tools:replace="android:exported">
+          <intent-filter>
+            <action android:name="com.google.firebase.MESSAGING_EVENT" />
+          </intent-filter>
         </service>
     </application>
 
